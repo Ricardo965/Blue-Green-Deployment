@@ -1,0 +1,61 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    io.kompose.service: grafana
+  name: grafana
+  namespace: monitoring
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: grafana
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        io.kompose.service: grafana
+    spec:
+      containers:
+        - image: grafana/grafana
+          name: grafana-container
+          ports:  
+            - containerPort: 3000
+              protocol: TCP
+          volumeMounts:
+            - mountPath: /var/lib/grafana
+              name: grafana-storage
+            - mountPath: /etc/grafana/provisioning/datasources/datasources.yml
+              name: grafana-datasource-volume
+              subPath: datasources.yml
+            - mountPath: /etc/grafana/provisioning/dashboards/dashboards.yaml
+              name: grafana-dashboard-provider-volume
+              subPath: dashboards.yaml
+            - mountPath: /var/lib/grafana/dashboards/microservices-metrics.json
+              name: grafana-dashboard-volume
+              subPath: microservices-metrics.json
+                      
+            
+      restartPolicy: Always
+      volumes:
+        - name: grafana-storage
+          persistentVolumeClaim:
+            claimName: grafana-storage
+        - name: grafana-datasource-volume
+          configMap:
+            name: grafana-datasource-config
+        - name: grafana-dashboard-provider-volume
+          configMap:
+            name: grafana-dashboard-provider
+        - name: grafana-dashboard-volume
+          configMap:
+            name: grafana-dashboard-microservices    
+
+      initContainers:
+        - name: fix-permissions
+          image: busybox
+          command: ["sh", "-c", "chown -R 472:472 /var/lib/grafana"]
+          volumeMounts:
+            - name: grafana-storage
+              mountPath: /var/lib/grafana

@@ -1,0 +1,42 @@
+# prometheus-configmap.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: prometheus-config
+  namespace: monitoring
+data:
+  prometheus.yml: |
+    global:
+      scrape_interval: 15s # Frecuencia de recolección de métricas
+      evaluation_interval: 15s # Frecuencia de evaluación de reglas
+
+    # Configuración de alertas (opcional)
+    alerting:
+      alertmanagers:
+        - static_configs:
+            - targets:
+              # - alertmanager:9093  # Descomenta si usas Alertmanager
+
+    # Reglas de alerta (opcional)
+    rule_files:
+      # - 'alert.rules.yml'        # Descomenta si tienes reglas personalizadas
+
+    # Jobs para scrapear métricas
+    scrape_configs:
+      # --- Microservicios ---
+
+      - job_name: "bankapp-blue"
+        metrics_path: "/actuator/prometheus"
+        static_configs:
+          - targets: ["bankapp-blue.webapps.svc.cluster.local:8080"]
+
+      - job_name: "bankapp-green"
+        metrics_path: "/actuator/prometheus"
+        static_configs:
+          - targets: ["bankapp-green.webapps.svc.cluster.local:8080"]
+
+
+      # --- Prometheus (automonitoreo) ---
+      - job_name: "prometheus"
+        static_configs:
+          - targets: ["localhost:9090"]

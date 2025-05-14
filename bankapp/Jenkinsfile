@@ -15,7 +15,7 @@ pipeline {
         TAG = "${params.DOCKER_TAG}"  // The image tag now comes from the parameter
         KUBE_NAMESPACE = 'webapps'
         SCANNER_HOME= tool 'sonar-scanner'
-        K8S_URL = 'https://6B489F4BBC4D890DB2DA8C23D9210E06.gr7.us-east-1.eks.amazonaws.com'
+        K8S_URL = 'https://5FA90B0A577E61E1046CE43533FFB0FD.gr7.us-east-1.eks.amazonaws.com'
     }
 
     stages {
