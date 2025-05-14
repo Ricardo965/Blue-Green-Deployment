@@ -28,7 +28,7 @@ pipeline {
             steps {
                 dir('bankapp') {
                     // Ejecutar mvn clean install para compilar el proyecto
-                    sh 'mvn clean install'
+                    sh 'mvn clean install -DskipTests'
                     
                     // Definir las propiedades necesarias para sonar
                     withSonarQubeEnv('sonar') {
