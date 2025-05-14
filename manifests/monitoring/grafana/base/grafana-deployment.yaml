@@ -20,7 +20,7 @@ spec:
       containers:
         - image: grafana/grafana
           name: grafana-container
-          ports:  
+          ports:
             - containerPort: 3000
               protocol: TCP
           volumeMounts:
@@ -35,13 +35,11 @@ spec:
             - mountPath: /var/lib/grafana/dashboards/microservices-metrics.json
               name: grafana-dashboard-volume
               subPath: microservices-metrics.json
-                      
-            
+
       restartPolicy: Always
       volumes:
         - name: grafana-storage
-          persistentVolumeClaim:
-            claimName: grafana-storage
+          emptyDir: {}
         - name: grafana-datasource-volume
           configMap:
             name: grafana-datasource-config
@@ -50,7 +48,7 @@ spec:
             name: grafana-dashboard-provider
         - name: grafana-dashboard-volume
           configMap:
-            name: grafana-dashboard-microservices    
+            name: grafana-dashboard-microservices
 
       initContainers:
         - name: fix-permissions

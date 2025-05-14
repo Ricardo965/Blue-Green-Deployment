@@ -28,12 +28,12 @@ data:
       - job_name: "bankapp-blue"
         metrics_path: "/actuator/prometheus"
         static_configs:
-          - targets: ["bankapp-blue.webapps.svc.cluster.local:8080"]
+          - targets: ["bankapp-blue-service.webapps.svc.cluster.local:8080"]
 
       - job_name: "bankapp-green"
         metrics_path: "/actuator/prometheus"
         static_configs:
-          - targets: ["bankapp-green.webapps.svc.cluster.local:8080"]
+          - targets: ["bankapp-green-service.webapps.svc.cluster.local:8080"]
 
 
       # --- Prometheus (automonitoreo) ---
