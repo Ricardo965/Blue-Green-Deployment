@@ -4,7 +4,7 @@
 
 This repository contains a **Spring Boot banking application** that I deploy using a **Blue-Green deployment strategy** on a **Kubernetes cluster hosted in AWS (EKS)**.
 
-All infrastructure provisioning (EKS cluster, EC2 agents for Jenkins, SonarQube, and Nexus) is handled with **Terraform**, and setup tasks are orchestrated through **Bash scripts**.
+All infrastructure provisioning (EKS cluster, AzureVM agents for Jenkins, SonarQube, and Nexus) is handled with **Terraform**, and setup tasks are orchestrated through **Bash scripts**.
 
 Much of this work is inspired by and credits the original structure from:  
 👉 [https://github.com/devops-methodology/Blue-Green-Deployment](https://github.com/devops-methodology/Blue-Green-Deployment)
