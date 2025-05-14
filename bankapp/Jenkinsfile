@@ -152,8 +152,8 @@ pipeline {
                         def verifyEnv = params.DEPLOY_ENV
                         withKubeConfig(caCertificate: '', clusterName: 'devopsshack-cluster', contextName: '', credentialsId: 'k8-token', namespace: 'webapps', restrictKubeConfigAccess: false, serverUrl: K8S_URL) {
                             sh """
-                            kubectl get pods -l version=${verifyEnv} -n ${KUBE_NAMESPACE} --validate=false
-                            kubectl get svc bankapp-service -n ${KUBE_NAMESPACE} --validate=false
+                            kubectl get pods -l version=${verifyEnv} -n ${KUBE_NAMESPACE}
+                            kubectl get svc bankapp-service -n ${KUBE_NAMESPACE}
                             """
                         }
                     }
