@@ -83,7 +83,7 @@ pipeline {
                 dir('manifests'){
                     script {
                         withKubeConfig(caCertificate: '', clusterName: 'devopsshack-cluster', contextName: '', credentialsId: 'k8-token', namespace: 'webapps', restrictKubeConfigAccess: false, serverUrl: K8S_URL) {
-                            sh "kubectl apply -f mysql-ds.yml -n ${KUBE_NAMESPACE} -validate=false"  // Ensure you have the MySQL deployment YAML ready
+                            sh "kubectl apply -f mysql-ds.yml -n ${KUBE_NAMESPACE} --validate=false"  // Ensure you have the MySQL deployment YAML ready
                         }
                     }
                 }
@@ -96,7 +96,7 @@ pipeline {
                     script {
                         withKubeConfig(caCertificate: '', clusterName: 'devopsshack-cluster', contextName: '', credentialsId: 'k8-token', namespace: 'webapps', restrictKubeConfigAccess: false, serverUrl: K8S_URL) {
                             sh """ if ! kubectl get svc bankapp-service -n ${KUBE_NAMESPACE}; then
-                                    kubectl apply -f bankapp-service.yml -n ${KUBE_NAMESPACE} -validate=false
+                                    kubectl apply -f bankapp-service.yml -n ${KUBE_NAMESPACE} --validate=false
                                 fi
                             """
                     }
@@ -117,7 +117,7 @@ pipeline {
                         }
 
                         withKubeConfig(caCertificate: '', clusterName: 'devopsshack-cluster', contextName: '', credentialsId: 'k8-token', namespace: 'webapps', restrictKubeConfigAccess: false, serverUrl: K8S_URL) {
-                            sh "kubectl apply -f ${deploymentFile} -n ${KUBE_NAMESPACE} -validate=false"
+                            sh "kubectl apply -f ${deploymentFile} -n ${KUBE_NAMESPACE} --validate=false"
                         }
                     }
                 }
@@ -152,8 +152,8 @@ pipeline {
                         def verifyEnv = params.DEPLOY_ENV
                         withKubeConfig(caCertificate: '', clusterName: 'devopsshack-cluster', contextName: '', credentialsId: 'k8-token', namespace: 'webapps', restrictKubeConfigAccess: false, serverUrl: K8S_URL) {
                             sh """
-                            kubectl get pods -l version=${verifyEnv} -n ${KUBE_NAMESPACE} -validate=false
-                            kubectl get svc bankapp-service -n ${KUBE_NAMESPACE} -validate=false
+                            kubectl get pods -l version=${verifyEnv} -n ${KUBE_NAMESPACE} --validate=false
+                            kubectl get svc bankapp-service -n ${KUBE_NAMESPACE} --validate=false
                             """
                         }
                     }
